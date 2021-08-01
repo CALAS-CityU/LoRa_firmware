@@ -8,19 +8,20 @@ SOURCES = $(wildcard $(SRCDIR)/*.c)
 OBJECTS = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SOURCES))
 
 
-all: compile link 
+build: compile link 
 
 compile: $(OBJECTS)
-	$(CC) -o $@ $^ $(CFLAGS)
+	$(CC) -o $@ $^ 
 
 link: $(BINARY)
 
+
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@mkdir -p $(@D)
-	$(CC) -c $< -o $@ $(CFLAGS)
+	$(CC) -c $< -o $@ 
 
 $(BINARY): $(OBJECTS)
-	$(CC) $(CFLAGS) $(OBJECTS) -o $(BINARY)
+	$(CC) $(OBJECTS) -o $(BINARY)
 
 clean:
 	rm -rf lorawan_riscv* obj/*
