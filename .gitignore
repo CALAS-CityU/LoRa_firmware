@@ -1,0 +1,8 @@
+*.o
+.vscode/
+*.coe
+*.s19
+LoRaWan_test
+*.dump
+*.elf
+*.mem
