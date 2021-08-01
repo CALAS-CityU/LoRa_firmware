@@ -16,6 +16,7 @@ compile: $(OBJECTS)
 link: $(BINARY)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
+	@mkdir -p $(@D)
 	$(CC) -c $< -o $@ $(CFLAGS)
 
 $(BINARY): $(OBJECTS)
