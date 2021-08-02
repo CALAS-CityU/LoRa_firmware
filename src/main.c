@@ -109,11 +109,12 @@ int main()
     frameCnt = 0;
     //for(frameCnt = 0; frameCnt < 5; frameCnt ++)
 
-    // Use the hard-coded private key
+    // Use the hard-coded private key and pub key to test 
     string_to_byte_convert(pri_key_string, ecdh_pri_key); 
     generate_curve25519_pub_key(ecdh_pub_key, ecdh_pri_key);
     uint8_t other_pub_key_test[32];
     string_to_byte_convert(other_pub_string, other_pub_key_test);
+    test_ecdh(ecdh_pri_key, other_pub_key_test);
 
     while(1)
     {
