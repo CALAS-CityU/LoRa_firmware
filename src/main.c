@@ -51,13 +51,18 @@
 #include "sleep.h"
 #include "sx1262.h"
 #include "LoRaWan.h"
-#include "ecdh.h"
+//#include "ecdh.h"
 #include "sc_print.h"
+
 
 uint8_t devEui[8] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08 };
 uint8_t appEui[8] = { 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88 };
 uint8_t appKey[16] = { 0x12, 0x34, 0x56, 0x78, 0x9a, 0xbc, 0xde, 0xf0, 0x0f, 0xed, 0xcb, 0xa9, 0x87, 0x65, 0x43, 0x21 };
 
+
+extern int 
+curve25519_donna(uint8_t *pub_key, const uint8_t *pri_key, const uint8_t *base);
+const uint8_t basepoint[32] = {9};
 uint8_t ecdh_pri_key[32] = {
     0x58, 0x4b, 0x65, 0x74, 0xaa, 0xf4, 0x9f, 0x7a, 
     0x6a, 0x78, 0x72, 0xe4, 0x9b, 0x8a, 0x31, 0xf1, 
@@ -117,7 +122,8 @@ int main()
 
     sc_printf("LoRaWAN Accept\n\r");
     // Use the hard-coded private key and pub key to test 
-    generate_curve25519_pub_key(ecdh_pub_key, ecdh_pri_key);
+    //generate_curve25519_pub_key(ecdh_pub_key, ecdh_pri_key);
+    curve25519_donna(ecdh_pub_key, ecdh_pri_key, basepoint);
     sc_printf("Key generation success\n\r");
     uint8_t other_pub_key_test[32];
     test_ecdh(ecdh_pri_key, other_pub_key_test);
