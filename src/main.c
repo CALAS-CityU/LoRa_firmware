@@ -113,11 +113,13 @@ int main()
     sc_printf("LoRaWAN Accept\n\r");
     // Use the hard-coded private key and pub key to test 
     string_to_byte_convert(pri_key_string, ecdh_pri_key); 
+    sc_printf("Conversion success\n\r");
     generate_curve25519_pub_key(ecdh_pub_key, ecdh_pri_key);
+    sc_printf("Key generation success\n\r");
     uint8_t other_pub_key_test[32];
     string_to_byte_convert(other_pub_string, other_pub_key_test);
     test_ecdh(ecdh_pri_key, other_pub_key_test);
-
+    
     while(1)
     {
         sleep(15);
