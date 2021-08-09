@@ -20,15 +20,18 @@ ICOEFILE = lorawan_riscv_instram.coe
 DCOEFILE = lorawan_riscv_dataram.coe
 MEMFILE = lorawan_riscv.mem
 
-build: $(ELFFILE)
+build: main.o $(ELFFILE)
 
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@mkdir -p $(@D)
 	$(GCC) -c $< -o $@ 
 
+main.o: main.c
+	$(GCC) -c main.c -o main.o 
+
 $(ELFFILE): $(OBJECTS)
-	$(LINK) -o $(ELFFILE) $(OBJECTS) -T $(LDSCRIPT) -nostartfiles -nostdlib
+	$(LINK) -o $(ELFFILE) main.o $(OBJECTS) -T $(LDSCRIPT) -nostartfiles -nostdlib
 
 dump: $(ELFFILE)
 	$(DUMP) -dC $(ELFFILE) > $(DUMPFILE)

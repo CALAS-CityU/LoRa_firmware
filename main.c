@@ -47,12 +47,12 @@
 
 #include <stdio.h>
 #include <stdbool.h>
-#include "glb_include.h"
-#include "sleep.h"
-#include "sx1262.h"
-#include "LoRaWan.h"
-#include "ecdh.h"
-#include "sc_print.h"
+#include "src/glb_include.h"
+#include "src/sleep.h"
+#include "src/sx1262.h"
+#include "src/LoRaWan.h"
+#include "src/ecdh.h"
+#include "src/sc_print.h"
 
 uint8_t devEui[8] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08 };
 uint8_t appEui[8] = { 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88 };
