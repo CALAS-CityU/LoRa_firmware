@@ -58,17 +58,22 @@ uint8_t devEui[8] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08 };
 uint8_t appEui[8] = { 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88 };
 uint8_t appKey[16] = { 0x12, 0x34, 0x56, 0x78, 0x9a, 0xbc, 0xde, 0xf0, 0x0f, 0xed, 0xcb, 0xa9, 0x87, 0x65, 0x43, 0x21 };
 
-uint8_t ecdh_pri_key[32];
+uint8_t ecdh_pri_key[32] = {
+    0x58, 0x4b, 0x65, 0x74, 0xaa, 0xf4, 0x9f, 0x7a, 
+    0x6a, 0x78, 0x72, 0xe4, 0x9b, 0x8a, 0x31, 0xf1, 
+    0xa9, 0x82, 0xbe, 0x27, 0xfd, 0x36, 0x6d, 0x84, 
+    0xfe, 0xee, 0x1b, 0xeb, 0x30, 0xdf, 0x74, 0x7d};
 uint8_t ecdh_pub_key[32];
 uint8_t ecdh_shared_key[32];
 bool ecdh_shared_key_exist = false;
 
+uint8_t test_other_pub_key[32] = {
+    0xb5, 0xbe, 0xa8, 0x23, 0xd9, 0xc9, 0xff, 0x57,
+    0x60, 0x91, 0xc5, 0x4b, 0x7c, 0x59, 0x6c, 0x0a,
+    0xe2, 0x96, 0x88, 0x4f, 0x0e, 0x15, 0x02, 0x90,
+    0xe8, 0x84, 0x55, 0xd7, 0xfb, 0xa6, 0x12, 0x6f
+};
 
-// Hard-coded private for test
-char pri_key_string[64] = "584B6574AAF49F7A6A7872E49B8A31F1A982BE27FD366D84FEEE1BEB30DF747D";
-char other_pub_string[64] = "b5bea823d9c9ff576091c54b7c596c0ae296884f0e150290e88455d7fba6126f";
-
-void string_to_byte_convert(char s[], uint8_t addressBytes[32]);
 void ecdh_packet_process(uint8_t *msg);
 void test_ecdh(uint8_t *pri_key, uint8_t *other_pub);
 void test_message(uint8_t *msg);
@@ -112,12 +117,9 @@ int main()
 
     sc_printf("LoRaWAN Accept\n\r");
     // Use the hard-coded private key and pub key to test 
-    string_to_byte_convert(pri_key_string, ecdh_pri_key); 
-    sc_printf("Conversion success\n\r");
     generate_curve25519_pub_key(ecdh_pub_key, ecdh_pri_key);
     sc_printf("Key generation success\n\r");
     uint8_t other_pub_key_test[32];
-    string_to_byte_convert(other_pub_string, other_pub_key_test);
     test_ecdh(ecdh_pri_key, other_pub_key_test);
     
     while(1)
@@ -198,14 +200,3 @@ void test_message(uint8_t *msg){
     sc_printf("\n\r");
 }
 
-void string_to_byte_convert(char s[], uint8_t  addressBytes[32]) {
-    sscanf(s, "%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx", &addressBytes[0], 
-    &addressBytes[1], &addressBytes[2], &addressBytes[3], &addressBytes[4],  \
-    &addressBytes[5], &addressBytes[6], &addressBytes[7], &addressBytes[8],  \
-    &addressBytes[9], &addressBytes[10], &addressBytes[11],&addressBytes[12],\
-    &addressBytes[13], &addressBytes[14], &addressBytes[15], &addressBytes[16],
-    &addressBytes[17], &addressBytes[18], &addressBytes[19], &addressBytes[20], 
-    &addressBytes[21], &addressBytes[22], &addressBytes[23], &addressBytes[24], 
-    &addressBytes[25], &addressBytes[26], &addressBytes[27], &addressBytes[28],
-    &addressBytes[29], &addressBytes[30], &addressBytes[31]);
-}
