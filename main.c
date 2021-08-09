@@ -86,6 +86,7 @@ int main()
     uint8_t netID[3];
     uint32_t devAddr;
     uint32_t frameCnt;
+    sc_print("Test Start\n");
 
     //uint32_t wrData[8] = {1, 2, 3, 4, 5, 6, 7, 8};
     //uint32_t rdData[8];
@@ -109,6 +110,7 @@ int main()
     frameCnt = 0;
     //for(frameCnt = 0; frameCnt < 5; frameCnt ++)
 
+    sc_print("LoRaWAN Accept\n");
     // Use the hard-coded private key and pub key to test 
     string_to_byte_convert(pri_key_string, ecdh_pri_key); 
     generate_curve25519_pub_key(ecdh_pub_key, ecdh_pri_key);
