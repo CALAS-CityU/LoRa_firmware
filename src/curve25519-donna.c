@@ -45,8 +45,9 @@
  * uses many of the tricks described therein. Only the crecip function is taken
  * from the sample implementation. */
 
-#include <string.h>
+//#include <string.h>
 #include <stdint.h>
+#include "sc_print.h"
 
 #ifdef _MSC_VER
 #define inline __inline
@@ -55,6 +56,31 @@
 typedef uint8_t u8;
 typedef int32_t s32;
 typedef int64_t limb;
+
+// Define our own memcpy to be compatible with RISC-v
+
+void *memcpy(void *dest, const void *source, unsigned int n){
+  //assert((dest != 0) && (source != 0));
+  unsigned char *pTmpDest = (unsigned char *)dest;
+  unsigned char *pTmpSrc = (unsigned char *)source;
+
+  while(n--)
+  {
+      *pTmpDest = *pTmpSrc;
+      pTmpDest ++;
+      pTmpSrc ++;
+  }
+  return dest;
+}
+
+void *memset(void *ptr, int value, unsigned int n){
+  unsigned char* p = (unsigned char *)ptr;
+    while(n--)
+    {
+        *p++ = (unsigned char) value;
+    }
+    return ptr;
+}
 
 /* Field element representation:
  *
@@ -851,10 +877,16 @@ curve25519_donna(u8 *mypublic, const u8 *secret, const u8 *basepoint) {
   e[31] &= 127;
   e[31] |= 64;
 
+ 
   fexpand(bp, basepoint);
+  sc_print("step 1\n\r");
   cmult(x, z, e, bp);
+  sc_print("step 2\n\r");
   crecip(zmone, z);
+  sc_print("step 3\n\r");
   fmul(z, x, zmone);
+  sc_print("step 4\n\r");
   fcontract(mypublic, z);
+  sc_print("step 5\n\r");
   return 0;
 }
