@@ -272,7 +272,7 @@ void LoRaWanAccept(uint8_t *appKey, uint8_t *decPld, uint8_t *nwkSKey, uint8_t *
 #endif
 }
 
-void LoRaWanUp(bool confirm, uint32_t devAddr, uint8_t *appSKey, uint8_t *nwkSKey, uint16_t frameCnt, uint8_t length, uint8_t fPort)
+void LoRaWanUp(bool confirm, uint32_t devAddr, uint8_t *appSKey, uint8_t *nwkSKey, uint16_t frameCnt, uint8_t length, uint8_t fPort, uint8_t* msg)
 {
     uint32_t mic;
     uint32_t i;
@@ -313,9 +313,15 @@ void LoRaWanUp(bool confirm, uint32_t devAddr, uint8_t *appSKey, uint8_t *nwkSKe
         cryptedtext[i] = plaintext[i];
     }
 
+    // for(i=0; i<length; i++)
+    // {
+    //     plaintext[9+i] = (frameCnt+i) & 0xff;
+    // }
+
+
     for(i=0; i<length; i++)
     {
-        plaintext[9+i] = (frameCnt+i) & 0xff;
+        plaintext[9+i] = msg[i];
     }
 
     if(length > 0)
