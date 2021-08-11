@@ -51,7 +51,7 @@
 #include "sleep.h"
 #include "sx1262.h"
 #include "LoRaWan.h"
-//#include "ecdh.h"
+#include "ecdh.h"
 #include "sc_print.h"
 
 
@@ -122,11 +122,8 @@ int main()
 
     sc_printf("LoRaWAN Accept\n\r");
     // Use the hard-coded private key and pub key to test 
-    //generate_curve25519_pub_key(ecdh_pub_key, ecdh_pri_key);
-    curve25519_donna(ecdh_pub_key, ecdh_pri_key, basepoint);
-    sc_printf("Key generation success\n\r");
-    uint8_t other_pub_key_test[32];
-    test_ecdh(ecdh_pri_key, other_pub_key_test);
+    generate_curve25519_pub_key(ecdh_pub_key, ecdh_pri_key);
+    test_ecdh(ecdh_pri_key, test_other_pub_key);
     
     while(1)
     {
@@ -169,12 +166,12 @@ void ecdh_packet_process(uint8_t *msg){
         generate_curve25519_shared_key(ecdh_shared_key, ecdh_pri_key, other_pub_key);
         sc_printf("Server requst for ECDH, server public key is: \n\r");
         for(int i = 0; i < 32; ++i){
-            sc_printf("%02hhX", *(other_pub_key+i));
+            sc_printf("%02x", *(other_pub_key+i));
         }
         sc_printf("\n\r");
         sc_printf("The shared secret key is: \n\r");
         for(int i = 0; i < 32; ++i){
-            sc_printf("%02hhX", *(ecdh_shared_key+i));
+            sc_printf("%02x", *(ecdh_shared_key+i));
         }
         sc_printf("\n\r");
         ecdh_shared_key_exist = true;
@@ -186,12 +183,12 @@ void test_ecdh(uint8_t *pri_key, uint8_t *other_pub){
     generate_curve25519_shared_key(shared_key, pri_key, other_pub);
     sc_printf("ECDH test, server public key is: \n\r");
     for(int i = 0; i < 32; ++i){
-        sc_printf("%02hhX", *(other_pub+i));
+        sc_printf("%02x", *(other_pub+i));
     }
     sc_printf("\n\r");
     sc_printf("The shared secret key is: \n\r");
     for(int i = 0; i < 32; ++i){
-        sc_printf("%02hhX", *(shared_key+i));
+        sc_printf("%02x", *(shared_key+i));
     }
     sc_printf("\n\r");
 }
@@ -201,7 +198,7 @@ void test_message(uint8_t *msg){
     uint8_t msg_len = 8;
     sc_printf("The message received is: \n\r");
     for(int i = 0; i < msg_len; ++i){
-        sc_printf("%02hhX", *(msg+i));
+        sc_printf("%02x", *(msg+i));
     }
     sc_printf("\n\r");
 }

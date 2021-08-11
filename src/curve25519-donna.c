@@ -47,7 +47,7 @@
 
 //#include <string.h>
 #include <stdint.h>
-#include "sc_print.h"
+//#include "sc_print.h"
 
 #ifdef _MSC_VER
 #define inline __inline
@@ -879,14 +879,9 @@ curve25519_donna(u8 *mypublic, const u8 *secret, const u8 *basepoint) {
 
  
   fexpand(bp, basepoint);
-  sc_print("step 1\n\r");
   cmult(x, z, e, bp);
-  sc_print("step 2\n\r");
   crecip(zmone, z);
-  sc_print("step 3\n\r");
   fmul(z, x, zmone);
-  sc_print("step 4\n\r");
   fcontract(mypublic, z);
-  sc_print("step 5\n\r");
   return 0;
 }
