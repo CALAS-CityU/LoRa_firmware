@@ -193,9 +193,9 @@ void test_ecdh(uint8_t *pri_key, uint8_t *other_pub){
 
 void test_message(uint8_t *msg){
     uint8_t front_offset = 9;
-    uint8_t msg_len = 8;
+    uint8_t msg_len = msg[9];
     sc_printf("The message received is: \n\r");
-    for(int i = 0; i < msg_len; ++i){
+    for(int i = 11; i < 11+msg_len; ++i){
         sc_printf("%02x", *(msg+i));
     }
     sc_printf("\n\r");
