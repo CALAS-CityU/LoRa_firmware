@@ -368,10 +368,10 @@ void LoRaWanUp(bool confirm, uint32_t devAddr, uint8_t *appSKey, uint8_t *nwkSKe
 #endif
 }
 
-void LoRaWanDown(uint8_t *message)
+void LoRaWanDown(uint32_t devAddr, uint8_t *appSKey, uint16_t frameCnt, uint8_t* message)
 {
     uint32_t payload[255];
-    //uint8_t  recPld[255];
+    uint8_t  recPld[255];
     uint32_t i;
 
     SX1262ClearIrqStatus();
@@ -381,16 +381,27 @@ void LoRaWanDown(uint8_t *message)
     sleep(6);
 
     SX1262SetStandby();
+    //SX1262ReadBuffer(payload, 0, 64);
     SX1262ReadBuffer(payload, 0, 30);
-
     SX1262GetIrqStatus();
+
+    for(i=0; i<256; i++)
+    {
+        recPld[i] = (uint8_t)(payload[i] & 0xff);
+        printf("%02x", recPld[i]);
+    }
+
+    for(i = 0; i < 11; ++i){
+        message[i] = recPld[i];
+    }
+
+    //uint8_t length = recPld[9];
+    LoRaMacPayloadDecrypt(recPld+9, 247, appSKey, devAddr, 1, (uint32_t) frameCnt, message+9);
 
     printf("----------Read downlink---------\n\r");
     for(i=0; i<256; i++)
     {
-        message[i] = (uint8_t)(payload[i] & 0xff);
         printf("%02x", message[i]);
     }
     printf("\n\r--------------------------\n\r");
-
 }

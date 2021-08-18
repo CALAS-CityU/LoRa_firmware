@@ -111,10 +111,9 @@ int main()
 
     sc_printf("LoRaWAN Accept\n\r");
     // Use the hard-coded private key and pub key to test 
-    generate_curve25519_pub_key(ecdh_pub_key, ecdh_pri_key);
-    //test_ecdh(ecdh_pri_key, ecdh_other_pub_key);
-    
+    generate_curve25519_pub_key(ecdh_pub_key, ecdh_pri_key);    
     uint8_t length = msg_to_packet(uplink_packet, 32, 0xff, ecdh_pub_key);
+
     while(1)
     {
         sleep(15);
