@@ -122,7 +122,7 @@ int main()
         LoRaWanRxConfig();
 
         uint8_t message_received[256];
-        LoRaWanDown(message_received);
+        LoRaWanDown(devAddr, appSKey, frameCnt, message_received);
         test_message(message_received);
         frameCnt++;
         if(!ecdh_shared_key_exist){
