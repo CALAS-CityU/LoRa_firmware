@@ -381,8 +381,7 @@ void LoRaWanDown(uint32_t devAddr, uint8_t *appSKey, uint16_t frameCnt, uint8_t*
     sleep(6);
 
     SX1262SetStandby();
-    //SX1262ReadBuffer(payload, 0, 64);
-    SX1262ReadBuffer(payload, 0, 30);
+    SX1262ReadBuffer(payload, 0, 64);
     SX1262GetIrqStatus();
 
     for(i=0; i<256; i++)
