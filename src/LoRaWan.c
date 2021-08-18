@@ -388,20 +388,20 @@ void LoRaWanDown(uint32_t devAddr, uint8_t *appSKey, uint16_t frameCnt, uint8_t*
     for(i=0; i<256; i++)
     {
         recPld[i] = (uint8_t)(payload[i] & 0xff);
-        printf("%02x", recPld[i]);
+        //printf("%02x", recPld[i]);
     }
 
-    for(i = 0; i < 11; ++i){
+    for(i = 0; i < 9; ++i){
         message[i] = recPld[i];
     }
 
     //uint8_t length = recPld[9];
     LoRaMacPayloadDecrypt(recPld+9, 247, appSKey, devAddr, 1, (uint32_t) frameCnt, message+9);
 
-    printf("----------Read downlink---------\n\r");
-    for(i=0; i<256; i++)
-    {
-        printf("%02x", message[i]);
-    }
-    printf("\n\r--------------------------\n\r");
+    // printf("----------Read downlink---------\n\r");
+    // for(i=0; i<256; i++)
+    // {
+    //     printf("%02x", message[i]);
+    // }
+    // printf("\n\r--------------------------\n\r");
 }
